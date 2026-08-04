@@ -1,0 +1,38 @@
+# Smithery configuration for the StayingAPI Hotel & Vacation Rental MCP - https://smithery.ai
+# Remote, hosted server at https://mcp.stayingapi.com/mcp - no local install required.
+# Canonical MCP registry name: com.stayingapi/hotel-vacation-rental-mcp
+
+startCommand:
+  type: http
+  url: https://mcp.stayingapi.com/mcp
+  description: >-
+    Hotel & Vacation Rental MCP: search stays, day-by-day availability, listing
+    detail, live price quotes, cross-OTA price comparison with computed min and
+    median, and normalized reviews across Booking.com, Airbnb, Vrbo and Google
+    Hotels. Seven read-only tools, one unified schema. Authenticate via OAuth
+    2.1 + PKCE (Dynamic Client Registration) or a bearer API key. Free tier,
+    300 credits, no card. StayingAPI is an independent service and is not
+    affiliated with, endorsed by, or sponsored by Airbnb, Booking.com, Vrbo, or
+    Google Hotels; these are trademarks of their respective owners, used
+    descriptively to indicate the data sources that can be queried.
+
+metadata:
+  homepage: https://stayingapi.com
+  documentation: https://stayingapi.com/docs/mcp
+  repository: https://github.com/stayingapi/hotel-vacation-rental-mcp
+  license: MIT
+  tags:
+    - hotel
+    - vacation-rental
+    - short-term-rental
+    - accommodation
+    - airbnb
+    - booking-com
+    - vrbo
+    - google-hotels
+    - travel
+    - price-comparison
+    - availability
+    - reviews
+    - ai-agents
+    - remote-mcp
