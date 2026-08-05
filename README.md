@@ -9,13 +9,13 @@
 <h1 align="center">Hotel &amp; Vacation Rental MCP - live prices, availability &amp; reviews across Booking.com, Airbnb, Vrbo &amp; Google Hotels</h1>
 
 <p align="center">
-  <b>Search stays, compare prices across Booking.com, Airbnb, Vrbo and Google Hotels, and pull reviews by just asking your AI. One hosted MCP, free tier, no card.</b><br/>
+  <b>Search stays, compare prices across Booking.com, Airbnb, Vrbo and Google Hotels, and pull reviews by just asking your AI. One hosted MCP, 300 free credits to start, no card.</b><br/>
   Seven read-only tools - search, availability, listing detail, price, cross-OTA price compare, reviews, and job polling - for Claude, ChatGPT, Cursor, Claude Code, and any MCP client.
 </p>
 
 <p align="center">
   <a href="https://cursor.com/en/install-mcp?name=stayingapi&config=eyJ1cmwiOiJodHRwczovL21jcC5zdGF5aW5nYXBpLmNvbS9tY3AifQ=="><img alt="Install in Cursor" src="https://img.shields.io/badge/Cursor-Install_MCP-000000?style=for-the-badge&logo=cursor&logoColor=white"/></a>
-  <a href="https://stayingapi.com/signup"><img alt="Free key, no card" src="https://img.shields.io/badge/Free_key-no_card-16A34A?style=for-the-badge"/></a>
+  <a href="https://stayingapi.com/signup"><img alt="300 free credits, no card" src="https://img.shields.io/badge/300_free_credits-no_card-16A34A?style=for-the-badge"/></a>
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-4CAF50?style=for-the-badge" alt="MIT License"/></a>
 </p>
 
-> **4 booking platforms, one schema · 7 read-only tools · cross-OTA price compare · OAuth 2.1, no key pasted into the agent · free tier, 300 credits, no card**
+> **4 booking platforms, one schema · 7 read-only tools · cross-OTA price compare · OAuth 2.1, no key pasted into the agent · 300 free credits to start, no card**
 > [StayingAPI](https://stayingapi.com) is an independent service for accommodation data. StayingAPI is not affiliated with, endorsed by, or sponsored by Airbnb, Booking.com, Vrbo, or Google Hotels. These are trademarks of their respective owners, used here descriptively to indicate the data sources StayingAPI's API and MCP server can query.
 
 ---
@@ -54,7 +54,7 @@ That single prompt spans three tools - `search_stays`, `compare_prices`, `get_re
 
 > **Requirements:**
 >
-> - A StayingAPI account ([sign up free](https://stayingapi.com/signup) - 300 credits, no card)
+> - A StayingAPI account ([sign up](https://stayingapi.com/signup) - 300 free credits, no card)
 > - **Either** OAuth (Claude, ChatGPT - no key handling at all) **or** an API key (`stay_live_...` / `stay_test_...`) from your dashboard
 
 > **Recommended: add a rule so your AI invokes it automatically**
@@ -461,7 +461,7 @@ Every call returns the same unified `{ data, meta }` envelope, whether the prope
 
 | | |
 | --- | --- |
-| **Free tier** | **300 credits at signup, no credit card** |
+| **Starter credits** | **300 free credits at signup, no card** |
 | **Sandbox** | `stay_test_` keys return deterministic fixtures at **0 credits**, forever |
 | **Failed calls** | Failed, empty, blocked and not-found calls are **never billed** - `creditsCharged` is 0 |
 | **Async polling** | `get_job` polling is **always 0 credits**; the work is billed once, on success |
@@ -469,7 +469,7 @@ Every call returns the same unified `{ data, meta }` envelope, whether the prope
 
 This README stays number-free on paid pricing by design, so it never drifts from the live [pricing page](https://stayingapi.com/pricing). MCP and REST draw from the **same single credit balance** - there is no separate MCP wallet or MCP pricing.
 
-[Sign up free](https://stayingapi.com/signup) · [View pricing](https://stayingapi.com/pricing)
+[Sign up](https://stayingapi.com/signup) · [View pricing](https://stayingapi.com/pricing)
 
 ---
 
@@ -616,7 +616,7 @@ Every tool returns the same `{ data, meta }` envelope. Property records carry id
 Claude Desktop and Claude Web: Settings, Connectors, Add custom connector, then paste `https://mcp.stayingapi.com/mcp` and complete the OAuth popup. Claude Code: `claude mcp add --transport http stayingapi https://mcp.stayingapi.com/mcp`, then run `/mcp` and authorize. ChatGPT: enable Developer Mode under Settings, Apps & Connectors, Advanced settings, then Settings, Connectors, Add MCP server, paste the same URL and complete the OAuth prompt. Cursor: use the one-click badge at the top of this README, or add `{"mcpServers":{"stayingapi":{"url":"https://mcp.stayingapi.com/mcp"}}}` to `~/.cursor/mcp.json` for every project, or to `.cursor/mcp.json` for just one. Any other MCP client works too - add the same URL as a Streamable HTTP server, and clients that support Dynamic Client Registration will negotiate OAuth without further configuration. Setup takes under a minute in every case, because the server is hosted: there is nothing to install, no runtime to manage, and no package to keep updated. Full per-client detail is in [Quick Install](#quick-install), and only configurations verified against the official docs are listed there, since a wrong config block costs you the one install attempt you get.
 
 **How much does it cost?**
-Signup gives you **300 credits free with no credit card**, and `stay_test_` sandbox keys return deterministic fixtures at zero cost forever, so you can build and test the whole integration before spending anything. After that it is credit-based, with current per-call costs and plan pricing on the [pricing page](https://stayingapi.com/pricing) - this README deliberately carries no paid numbers so they can never go stale here. Three things are always free regardless of plan: failed, empty and blocked calls (`creditsCharged` is 0), `get_job` polling, and every sandbox call. MCP and REST draw on the **same single balance**, so adding the MCP server does not create a second bill. Live credit unlocks after you verify your account email; the sandbox works fully before that.
+Signup gives you **300 free credits with no card**, and `stay_test_` sandbox keys return deterministic fixtures at zero cost forever, so you can build and test the whole integration before spending anything. After that it is credit-based, with current per-call costs and plan pricing on the [pricing page](https://stayingapi.com/pricing) - this README deliberately carries no paid numbers so they can never go stale here. Three things are always free regardless of plan: failed, empty and blocked calls (`creditsCharged` is 0), `get_job` polling, and every sandbox call. MCP and REST draw on the **same single balance**, so adding the MCP server does not create a second bill. Live credit unlocks after you verify your account email; the sandbox works fully before that.
 
 **Is StayingAPI affiliated with Airbnb, Booking.com, Vrbo or Google Hotels?**
 No. StayingAPI is an independent service. **StayingAPI is not affiliated with, endorsed by, or sponsored by Airbnb, Booking.com, Vrbo, or Google Hotels. These are trademarks of their respective owners, used here descriptively to indicate the data sources StayingAPI's API and MCP server can query.** We are not a partner, a reseller, or an authorized integration of any booking platform, we hold no agreement with any of them, and none of them endorse, review or approve this project. Platform names appear throughout this README, in the `platforms[]` enum, and in tool parameters purely as descriptive labels for which data source a given call targets, in the same way a price-comparison tool names the shops it checks. StayingAPI does not book, cancel or modify reservations: all seven tools are strictly read-only, annotated `readOnlyHint: true`, and there are no write tools at all. If you need to actually reserve a stay, follow the canonical listing `url` returned with every property and book on that platform directly.
@@ -624,7 +624,7 @@ No. StayingAPI is an independent service. **StayingAPI is not affiliated with, e
 ---
 
 <p align="center">
-  <b><a href="https://stayingapi.com/signup">Get your free key, no card</a></b> · <a href="https://stayingapi.com/docs/mcp">MCP docs</a> · <a href="https://stayingapi.com/pricing">Pricing</a> · <a href="https://status.stayingapi.com">Status</a>
+  <b><a href="https://stayingapi.com/signup">Get your key — 300 free credits, no card</a></b> · <a href="https://stayingapi.com/docs/mcp">MCP docs</a> · <a href="https://stayingapi.com/pricing">Pricing</a> · <a href="https://status.stayingapi.com">Status</a>
 </p>
 
 <p align="center">

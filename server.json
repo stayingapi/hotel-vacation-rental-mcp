@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "com.stayingapi/hotel-vacation-rental-mcp",
-  "title": "Hotel & Vacation Rental MCP - live prices, availability & reviews across Booking.com, Airbnb, Vrbo & Google Hotels",
-  "description": "Hotel & Vacation Rental MCP: search, live prices & reviews across Booking.com, Airbnb, Vrbo. Free.",
+  "title": "Hotel & Vacation Rental MCP - live prices & reviews across Booking, Airbnb, Vrbo & Google Hotels",
+  "description": "Search hotels & rentals: live prices & reviews across Booking.com, Airbnb, Vrbo & Google Hotels.",
   "version": "1.0.0",
   "repository": {
     "url": "https://github.com/stayingapi/hotel-vacation-rental-mcp",
@@ -13,12 +13,16 @@
     {
       "src": "https://raw.githubusercontent.com/stayingapi/hotel-vacation-rental-mcp/main/public/brand/logo-512.png",
       "mimeType": "image/png",
-      "sizes": ["512x512"]
+      "sizes": [
+        "512x512"
+      ]
     },
     {
       "src": "https://raw.githubusercontent.com/stayingapi/hotel-vacation-rental-mcp/main/public/brand/logo-256.png",
       "mimeType": "image/png",
-      "sizes": ["256x256"]
+      "sizes": [
+        "256x256"
+      ]
     }
   ],
   "remotes": [
