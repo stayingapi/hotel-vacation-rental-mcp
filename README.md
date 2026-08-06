@@ -23,6 +23,7 @@
   <a href="https://stayingapi.com/docs/mcp"><img src="https://img.shields.io/badge/Docs-MCP_Guide-06B6D4?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://api.stayingapi.com/openapi.json"><img src="https://img.shields.io/badge/OpenAPI-Spec-85EA2D?style=for-the-badge&logo=openapiinitiative&logoColor=white" alt="OpenAPI"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-4CAF50?style=for-the-badge" alt="MIT License"/></a>
+  <a href="https://glama.ai/mcp/servers/stayingapi/hotel-vacation-rental-mcp"><img alt="Glama quality score" src="https://glama.ai/mcp/servers/stayingapi/hotel-vacation-rental-mcp/badges/score.svg"/></a>
 </p>
 
 > **4 booking platforms, one schema · 7 read-only tools · cross-OTA price compare · OAuth 2.1, no key pasted into the agent · 300 free credits to start, no card**
