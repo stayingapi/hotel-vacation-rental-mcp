@@ -51,6 +51,64 @@ That single prompt spans three tools - `search_stays`, `compare_prices`, `get_re
 
 ---
 
+## Install as an Agent Plugin <sub>· **easiest**</sub>
+
+This repository root is a conformant **[Agent Plugins 1.0.0](https://agent-plugins.org/specification)** package — the portable format published 2026-08-06 and supported by ChatGPT, Codex, Cursor, GitHub Copilot, Kiro and VS Code. One install gets you the MCP server **and** a bundled `stays` skill that teaches your agent which tool answers which question, how to keep cross-platform fan-out cheap, and that Airbnb/Vrbo rate on a 5-point scale while Booking.com rates on 10 — so it never compares a 9 with a 4.5.
+
+```text
+plugin.json              # manifest
+mcp.json                 # hosted MCP server, streamable-http, OAuth (no keys)
+skills/stays/SKILL.md    # when + how to use the 7 read-only tools
+```
+
+**VS Code** — Command Palette → **Chat: Install Plugin From Source**, then paste:
+
+```txt
+https://github.com/stayingapi/hotel-vacation-rental-mcp
+```
+
+Or register a local clone in `settings.json`:
+
+```json
+"chat.pluginLocations": { "/absolute/path/to/hotel-vacation-rental-mcp": true }
+```
+
+**Cursor** — **Customize** in the sidebar → find the plugin → **Install**. For a local clone:
+
+```bash
+git clone https://github.com/stayingapi/hotel-vacation-rental-mcp ~/.cursor/plugins/local/stayingapi
+```
+
+Then **Developer: Reload Window**.
+
+**ChatGPT, Codex, GitHub Copilot, Kiro, any other client** — point your client's plugin mechanism at this repository, or at a local clone. Agent Plugins 1.0.0 standardizes the *package format*, not installation, so each client owns its own install flow.
+
+### 30-second example
+
+```txt
+Find a 2-bedroom apartment in Split, Croatia for 12-15 June, 2 adults, under EUR 150 a night.
+```
+
+One `search_stays` call returns Airbnb, Booking.com, Vrbo and Google Hotels merged into a single normalized list, each with its booking URL. **No API key to configure** — the first call opens an OAuth sign-in (free account, 300 credits, no card). Then the follow-ups that normally take twenty browser tabs:
+
+```txt
+Is that one cheaper on Booking or Airbnb?   → compare_prices (one call, every OTA)
+Is it free all week, and what's the min stay? → check_availability (day by day)
+```
+
+All seven tools are **read-only** — nothing here can book, cancel or change a reservation.
+
+There are **no credentials in this package** — Agent Plugins 1.0.0 forbids embedded secrets, and authorization is client-managed. Verify the package yourself:
+
+```bash
+curl -sO https://agent-plugins.org/schemas/1.0.0/plugin.schema.json
+curl -sO https://agent-plugins.org/schemas/1.0.0/mcp.schema.json
+npx ajv-cli@5 validate --spec=draft2020 -s plugin.schema.json -d plugin.json
+npx ajv-cli@5 validate --spec=draft2020 -s mcp.schema.json    -d mcp.json
+```
+
+---
+
 ## Quick Install
 
 > **Requirements:**

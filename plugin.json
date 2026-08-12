@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "stayingapi",
+  "version": "1.0.0",
+  "description": "Hotel and vacation-rental data for AI agents — search, availability, pricing, cross-OTA price comparison and reviews across Airbnb, Booking.com, Vrbo and Google Hotels in one unified schema, via the hosted StayingAPI MCP server. Read-only, OAuth sign-in, free tier.",
+  "author": {
+    "name": "StayingAPI",
+    "email": "hello@stayingapi.com",
+    "url": "https://stayingapi.com"
+  },
+  "homepage": "https://stayingapi.com",
+  "repository": "https://github.com/stayingapi/hotel-vacation-rental-mcp",
+  "license": "MIT",
+  "keywords": [
+    "hotels",
+    "vacation-rental",
+    "airbnb",
+    "booking-com",
+    "vrbo",
+    "google-hotels",
+    "travel",
+    "accommodation",
+    "price-comparison",
+    "stayingapi",
+    "mcp"
+  ]
+}
