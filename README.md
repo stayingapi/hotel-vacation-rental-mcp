@@ -31,6 +31,24 @@
 
 ---
 
+## Install in one line
+
+**Claude Code**
+
+```bash
+claude mcp add --transport http stayingapi https://mcp.stayingapi.com/mcp
+```
+
+**Claude Desktop, ChatGPT, Cursor, or any other MCP client** — add this as a Streamable HTTP server:
+
+```txt
+https://mcp.stayingapi.com/mcp
+```
+
+No API key to paste: the first call opens an OAuth sign-in (free account, 300 credits, no card). Per-client steps are in [Quick Install](#quick-install), and the whole repo also installs as an [Agent Plugin](#install-as-an-agent-plugin--easiest).
+
+---
+
 ## Why a Hotel & Vacation Rental MCP
 
 You are already comparing stays across four sites by hand: a hotel on Booking.com, an apartment on Airbnb, a villa on Vrbo, and Google Hotels to sanity-check the rate. Every one of them has a different page, a different rating scale, and no API you can just sign up for.
