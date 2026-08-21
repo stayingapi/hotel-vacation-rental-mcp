@@ -631,6 +631,7 @@ Base URL: `https://api.stayingapi.com/v1`. The seven MCP tools map 1:1 to `/v1/s
 - **Workflows & recipes:** [stayingapi.com/workflows](https://stayingapi.com/workflows)
 - **Status:** [status.stayingapi.com](https://status.stayingapi.com)
 - **Contact:** [hello@stayingapi.com](mailto:hello@stayingapi.com)
+- **Listed in:** [awesome-agent-plugins](https://github.com/ZeroPointRepo/awesome-agent-plugins), a directory of verified Agent Plugins on the open standard, maintained by the same team
 
 **Related repositories** - part of the StayingAPI open resource set: [hotel-api](https://github.com/stayingapi/hotel-api) · [airbnb-api](https://github.com/stayingapi/airbnb-api) · [booking-com-api](https://github.com/stayingapi/booking-com-api) · [vrbo-api](https://github.com/stayingapi/vrbo-api) · [google-hotels-api](https://github.com/stayingapi/google-hotels-api) · [travel-api](https://github.com/stayingapi/travel-api) · [travel-workflows](https://github.com/stayingapi/travel-workflows) · [travel-skills](https://github.com/stayingapi/travel-skills)
 
