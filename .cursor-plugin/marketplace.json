@@ -1,0 +1,18 @@
+{
+  "name": "stayingapi",
+  "owner": {
+    "name": "StayingAPI",
+    "email": "hello@stayingapi.com"
+  },
+  "metadata": {
+    "description": "Accommodation data plugins by StayingAPI — hotels and vacation rentals across four booking platforms in one schema.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "stayingapi",
+      "source": "./",
+      "description": "Hotel and vacation-rental data for AI agents — search, availability, pricing, cross-OTA price comparison and reviews across Airbnb, Booking.com, Vrbo and Google Hotels in one unified schema, via the hosted StayingAPI MCP server. Read-only, OAuth sign-in, free tier."
+    }
+  ]
+}
