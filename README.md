@@ -74,9 +74,10 @@ That single prompt spans three tools - `search_stays`, `compare_prices`, `get_re
 This repository root is a conformant **[Agent Plugins 1.0.0](https://agent-plugins.org/specification)** package — the portable format published 2026-08-06 and supported by ChatGPT, Codex, Cursor, GitHub Copilot, Kiro and VS Code. One install gets you the MCP server **and** a bundled `stays` skill that teaches your agent which tool answers which question, how to keep cross-platform fan-out cheap, and that Airbnb/Vrbo rate on a 5-point scale while Booking.com rates on 10 — so it never compares a 9 with a 4.5.
 
 ```text
-plugin.json              # manifest
-mcp.json                 # hosted MCP server, streamable-http, OAuth (no keys)
-skills/stays/SKILL.md    # when + how to use the 7 read-only tools
+plugin.json                    # Agent Plugins 1.0.0 manifest
+mcp.json                       # hosted MCP server, streamable-http, OAuth (no keys)
+skills/stays/SKILL.md          # when + how to use the 7 read-only tools
+.cursor-plugin/plugin.json     # Cursor plugin manifest, same MCP + skill (+ marketplace.json)
 ```
 
 **VS Code** — Command Palette → **Chat: Install Plugin From Source**, then paste:
@@ -98,6 +99,12 @@ git clone https://github.com/stayingapi/hotel-vacation-rental-mcp ~/.cursor/plug
 ```
 
 Then **Developer: Reload Window**.
+
+**Add to Cursor** — MCP server only, no clone. Paste this deeplink into your browser:
+
+```txt
+cursor://anysphere.cursor-deeplink/mcp/install?name=stayingapi&config=eyJ1cmwiOiJodHRwczovL21jcC5zdGF5aW5nYXBpLmNvbS9tY3AifQ==
+```
 
 **ChatGPT, Codex, GitHub Copilot, Kiro, any other client** — point your client's plugin mechanism at this repository, or at a local clone. Agent Plugins 1.0.0 standardizes the *package format*, not installation, so each client owns its own install flow.
 
