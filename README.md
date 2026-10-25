@@ -139,7 +139,7 @@ npx ajv-cli@5 validate --spec=draft2020 -s mcp.schema.json    -d mcp.json
 > **Requirements:**
 >
 > - A StayingAPI account ([sign up](https://stayingapi.com/signup) - 300 free credits, no card)
-> - **Either** OAuth (Claude, ChatGPT - no key handling at all) **or** an API key (`stay_live_...` / `stay_test_...`) from your dashboard
+> - An MCP client that supports OAuth 2.1 (Claude, ChatGPT, Cursor and most others). The MCP server signs you in with OAuth only; API keys (`stay_live_...` / `stay_test_...`) are for the [REST API](#also-available-as-a-rest-api)
 
 > **Recommended: add a rule so your AI invokes it automatically**
 >
@@ -190,12 +190,7 @@ claude mcp add --transport http stayingapi https://mcp.stayingapi.com/mcp
 
 Then run `/mcp` inside Claude Code and complete the OAuth prompt.
 
-Prefer a bearer key, or running headless?
-
-```bash
-claude mcp add --transport http stayingapi https://mcp.stayingapi.com/mcp \
-  --header "Authorization: Bearer stay_live_YOUR_KEY_HERE"
-```
+Running headless, or want a key instead? The MCP server accepts OAuth sign-in only, so for scripts and backends use the [REST API](#also-available-as-a-rest-api) with a `stay_live_` key.
 
 </details>
 
@@ -231,7 +226,7 @@ https://mcp.stayingapi.com/mcp
 }
 ```
 
-To use a bearer key instead of the OAuth flow, add a `headers` object with `"Authorization": "Bearer stay_live_YOUR_KEY_HERE"`.
+The first tool call opens the OAuth sign-in. There is no API-key option for the MCP server.
 
 </details>
 
@@ -240,8 +235,8 @@ To use a bearer key instead of the OAuth flow, add a `headers` object with `"Aut
 
 Add `https://mcp.stayingapi.com/mcp` as a **Streamable HTTP** MCP server.
 
-- Clients that support OAuth 2.1 with Dynamic Client Registration authenticate automatically - nothing to configure.
-- Clients that do not can present a bearer key instead: `Authorization: Bearer stay_live_...`.
+- Authentication is OAuth 2.1 + PKCE with Dynamic Client Registration: clients that support it authenticate automatically - nothing to configure.
+- The MCP server does not accept API keys. A client without MCP OAuth support cannot connect; use the [REST API](#also-available-as-a-rest-api) with a `stay_live_` key instead.
 
 Only formats verified against [stayingapi.com/docs/mcp](https://stayingapi.com/docs/mcp) are listed above on purpose. If your client is not here, the generic Streamable HTTP setup is the whole configuration.
 
@@ -251,10 +246,10 @@ Only formats verified against [stayingapi.com/docs/mcp](https://stayingapi.com/d
 
 ## Authentication
 
-Two ways in, both ending at the same account and the same credit balance:
+The MCP server and the REST API end at the same account and the same credit balance, but sign in differently:
 
-- **OAuth 2.1 + PKCE (S256) with Dynamic Client Registration** - recommended for Claude and ChatGPT. You authorize once in a browser popup and the connector is linked to your StayingAPI account. DCR-aware clients discover everything automatically, so **no key is ever pasted into the agent**.
-- **Bearer API key** - for key-based clients and scripts. Keys are `stay_live_...` (real fan-out to live sources) or `stay_test_...` (deterministic sandbox fixtures, always 0 credits). Send as `Authorization: Bearer stay_live_...`.
+- **MCP server: OAuth 2.1 + PKCE (S256) with Dynamic Client Registration, only.** You authorize once in a browser popup and the connector is linked to your StayingAPI account. DCR-aware clients discover everything automatically, so **no key is ever pasted into the agent**. The MCP server does not accept API keys, and MCP tool calls are live.
+- **REST API: bearer API key.** For scripts, backends and pipelines. Keys are `stay_live_...` (real fan-out to live sources) or `stay_test_...` (deterministic sandbox fixtures, always 0 credits). Send as `Authorization: Bearer stay_live_...` to `https://api.stayingapi.com/v1`.
 
 **One balance, separate rate bucket.** MCP calls draw from the same single credit balance as your REST keys. REST is rate-limited per key; MCP is rate-limited per user - separate buckets, one wallet.
 
@@ -546,7 +541,7 @@ Every call returns the same unified `{ data, meta }` envelope, whether the prope
 | | |
 | --- | --- |
 | **Starter credits** | **300 free credits at signup, no card** |
-| **Sandbox** | `stay_test_` keys return deterministic fixtures at **0 credits**, forever |
+| **Sandbox (REST API)** | `stay_test_` keys return deterministic fixtures at **0 credits**, forever. MCP tool calls are live |
 | **Failed calls** | Failed, empty, blocked and not-found calls are **never billed** - `creditsCharged` is 0 |
 | **Async polling** | `get_job` polling is **always 0 credits**; the work is billed once, on success |
 | **Paid plans** | Credit-based. Current per-call costs and plan prices: [stayingapi.com/pricing](https://stayingapi.com/pricing) |
@@ -566,9 +561,8 @@ Branch on `error.type` (the class, mapped 1:1 to the HTTP status) and then on `e
 
 Codes: `missing_api_key`, `invalid_api_key`, `revoked_api_key`.
 
-- Check the key starts with `stay_live_` or `stay_test_`, and that no stray whitespace was copied.
-- Confirm the key has not been revoked in your dashboard. A revoked key returns `revoked_api_key` immediately.
-- On OAuth clients, remove and re-add the connector to re-authorize.
+- MCP: remove and re-add the connector to re-authorize. The MCP server takes OAuth sign-in only, so a pasted API key is always rejected here.
+- REST API: check the key starts with `stay_live_` or `stay_test_`, that no stray whitespace was copied, and that it has not been revoked in your dashboard (a revoked key returns `revoked_api_key` immediately).
 - Auth is checked before validation, billing or any upstream work, so a 401 is **never billed**.
 </details>
 
@@ -577,7 +571,7 @@ Codes: `missing_api_key`, `invalid_api_key`, `revoked_api_key`.
 
 Codes: `email_unverified`, `scope_insufficient`, `subscription_required`.
 
-- `email_unverified` is the common one: live credit is locked until you confirm your account email. Your `stay_test_` sandbox key is unaffected and keeps returning full fixtures at zero cost, so you can build end-to-end before verifying.
+- `email_unverified` is the common one: live credit is locked until you confirm your account email. On the REST API, your `stay_test_` sandbox key is unaffected and keeps returning full fixtures at zero cost, so you can build end-to-end before verifying.
 - `subscription_required` means a top-up was attempted without an active paid subscription - top-ups are a subscriber add-on.
 </details>
 
@@ -619,7 +613,7 @@ Code: `rate_limit_exceeded`. Retryable - honour the `Retry-After` header rather 
 <summary><b>OAuth will not connect</b></summary>
 
 - Make sure a popup blocker is not stopping the sign-in window, then clear cookies and retry the connector authorization.
-- OAuth discovery starts from the server's 401 response. If a client cannot connect at all, confirm it supports MCP OAuth 2.1 with Dynamic Client Registration - otherwise fall back to a bearer key.
+- OAuth discovery starts from the server's 401 response. If a client cannot connect at all, confirm it supports MCP OAuth 2.1 with Dynamic Client Registration. The MCP server has no API-key fallback; without OAuth support, use the REST API with a `stay_live_` key.
 </details>
 
 <details>
@@ -701,7 +695,7 @@ Every tool returns the same `{ data, meta }` envelope. Property records carry id
 Claude Desktop and Claude Web: Settings, Connectors, Add custom connector, then paste `https://mcp.stayingapi.com/mcp` and complete the OAuth popup. Claude Code: `claude mcp add --transport http stayingapi https://mcp.stayingapi.com/mcp`, then run `/mcp` and authorize. ChatGPT: enable Developer Mode under Settings, Apps & Connectors, Advanced settings, then Settings, Connectors, Add MCP server, paste the same URL and complete the OAuth prompt. Cursor: use the one-click badge at the top of this README, or add `{"mcpServers":{"stayingapi":{"url":"https://mcp.stayingapi.com/mcp"}}}` to `~/.cursor/mcp.json` for every project, or to `.cursor/mcp.json` for just one. Any other MCP client works too - add the same URL as a Streamable HTTP server, and clients that support Dynamic Client Registration will negotiate OAuth without further configuration. Setup takes under a minute in every case, because the server is hosted: there is nothing to install, no runtime to manage, and no package to keep updated. Full per-client detail is in [Quick Install](#quick-install), and only configurations verified against the official docs are listed there, since a wrong config block costs you the one install attempt you get.
 
 **How much does it cost?**
-Signup gives you **300 free credits with no card**, and `stay_test_` sandbox keys return deterministic fixtures at zero cost forever, so you can build and test the whole integration before spending anything. After that it is credit-based, with current per-call costs and plan pricing on the [pricing page](https://stayingapi.com/pricing) - this README deliberately carries no paid numbers so they can never go stale here. Three things are always free regardless of plan: failed, empty and blocked calls (`creditsCharged` is 0), `get_job` polling, and every sandbox call. MCP and REST draw on the **same single balance**, so adding the MCP server does not create a second bill. Live credit unlocks after you verify your account email; the sandbox works fully before that.
+Signup gives you **300 free credits with no card**, and on the REST API `stay_test_` sandbox keys return deterministic fixtures at zero cost forever, so you can build and test the whole integration before spending anything. After that it is credit-based, with current per-call costs and plan pricing on the [pricing page](https://stayingapi.com/pricing) - this README deliberately carries no paid numbers so they can never go stale here. Three things are always free regardless of plan: failed, empty and blocked calls (`creditsCharged` is 0), `get_job` polling, and every REST sandbox call. MCP and REST draw on the **same single balance**, so adding the MCP server does not create a second bill. Live credit unlocks after you verify your account email; the sandbox works fully before that.
 
 **Is StayingAPI affiliated with Airbnb, Booking.com, Vrbo or Google Hotels?**
 No. StayingAPI is an independent service. **StayingAPI is not affiliated with, endorsed by, or sponsored by Airbnb, Booking.com, Vrbo, or Google Hotels. These are trademarks of their respective owners, used here descriptively to indicate the data sources StayingAPI's API and MCP server can query.** We are not a partner, a reseller, or an authorized integration of any booking platform, we hold no agreement with any of them, and none of them endorse, review or approve this project. Platform names appear throughout this README, in the `platforms[]` enum, and in tool parameters purely as descriptive labels for which data source a given call targets, in the same way a price-comparison tool names the shops it checks. StayingAPI does not book, cancel or modify reservations: all seven tools are strictly read-only, annotated `readOnlyHint: true`, and there are no write tools at all. If you need to actually reserve a stay, follow the canonical listing `url` returned with every property and book on that platform directly.
